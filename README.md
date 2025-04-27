@@ -81,9 +81,13 @@
 - **예외 전역 처리 / 커스텀 예외 처리**
 
   예외 처리를 하는 GlobalExceptionHandler를 ControllerAdvice를 사용하여 만들었습니다.
-  컨트롤러에서 오류가 발생 시 dispatcherServlet을 거쳐 was까지 전달된다. 이후 에러 페이지로 다시 요청을 보내게 되는데,
-  다시 거쳐야 하는 작업이 많으므로 비효율적입니다.
+  
+  컨트롤러에서 오류가 발생 시 dispatcherServlet을 거쳐 was까지 전달된다.
+
+  이후 에러 페이지로 다시 요청을 보내게 되는데, 다시 거쳐야 하는 작업이 많으므로 비효율적입니다.
+  
   이를 해결하기 위하여 ExceptionHandler를 사용하면 dispatcherServlet까지 예외를 전달하지 않아도 됩니다.
+  
   이때 예외 처리를 쉽게 하기 위해 ControllerAdvice빈에 ExceptionHandler를 만들어 관리하였습니다.
   
   언 체크 예외는 놓치는 경우가 발생할 수 있습니다.
