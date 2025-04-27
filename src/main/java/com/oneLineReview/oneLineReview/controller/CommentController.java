@@ -37,7 +37,7 @@ public class CommentController {
 
     @PostMapping("/delete")
     @ValidateOwnership(service = SERVICE.COMMENT)
-    public String deleteComment(@RequestParam Long id) throws NotFoundException {
+    public String deleteComment(@RequestParam Long id) {
 
         long reviewId = commentService.findReviewIdFromId(id);
         commentService.delete(id);

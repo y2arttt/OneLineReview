@@ -37,14 +37,8 @@ public class AuthController {
     }
 
     @GetMapping("/login/**")
-    public String loginForm(Model model, HttpServletRequest request) {
+    public String loginForm(Model model) {
         model.addAttribute("loginDTO", new LoginRequestDTO());
-
-        String referer = request.getHeader("Referer");
-        if (referer != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("referer", referer);
-        }
 
         return "auth/loginForm";
     }
@@ -60,7 +54,6 @@ public class AuthController {
         log.info("user login [{}] {}",session.getId(),userId);
 
 
-        String referer = (String) session.getAttribute("referer");
         return "redirect:/";
 
     }
@@ -69,6 +62,7 @@ public class AuthController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.invalidate();
         }
