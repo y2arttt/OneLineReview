@@ -65,7 +65,8 @@
 ![유스케이스3](https://github.com/user-attachments/assets/61fd6554-0650-44e4-b436-62bd53ec9ccb)
 
 # ERD
-![One Review Book (1)](https://github.com/user-attachments/assets/2493e9bd-2cd8-446f-939e-13f7bc4ac01d)
+![One Review Book (2)](https://github.com/user-attachments/assets/5c9d6ef9-efb1-452a-8e27-9eb26f8b2798)
+
 
 
 # 고민했던 점
