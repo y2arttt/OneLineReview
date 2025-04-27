@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oneLineReview.oneLineReview.mapper.BookMapper">
+
+    <resultMap id="bookResultMap" type="com.oneLineReview.oneLineReview.Domain.Book">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="isbn" column="isbn"/>
+        <result property="image" column="image"/>
+        <result property="discount" column="discount"/>
+        <result property="publisher" column="publisher"/>
+        <result property="description" column="description"/>
+        <result property="author" column="author"/>
+        <result property="pubdate" column="pubdate"/>
+    </resultMap>
+
+    <insert id="insert"
+            parameterType="com.oneLineReview.oneLineReview.Domain.Book"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        <![CDATA[
+        INSERT INTO book (title, isbn, image, discount, publisher, description, author, pubdate)
+        VALUES (#{title}, #{isbn}, #{image}, #{discount}, #{publisher}, #{description}, #{author}, #{pubdate})
+        ]]>
+    </insert>
+
+    <select id="select" parameterType="String" resultType="com.oneLineReview.oneLineReview.Domain.Book">
+        SELECT * FROM book
+        WHERE ISBN = #{isbn}
+    </select>
+
+    <!--미완성 도서 검색-->
+    <select id="selectList" parameterType="String" resultMap="bookResultMap">
+    <![CDATA[
+        SELECT * FROM book
+        WHERE
+            title LIKE '%${keyword}%'
+           OR author LIKE '%${keyword}%'
+        ]]>
+    </select>
+
+    <select id="idToIsbn" parameterType="Long" resultType="String">
+        SELECT ISBN FROM book
+        WHERE ID = #{id}
+    </select>
+
+</mapper>

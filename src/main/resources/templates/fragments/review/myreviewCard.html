@@ -1,0 +1,53 @@
+<div th:fragment="reviewCard(review)">
+    <div class="card border bg-light mb-4 rounded-4"
+         th:onclick="|window.location.href='/review/detail/' + ${review.id}|"
+         style="cursor: pointer;">
+        <div class="card-body position-relative px-4 py-4">
+
+            <!-- 상단 헤더 -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="fw-bold text-primary" style="font-size: 1.1rem;">
+                    <i class="bi bi-person-badge me-1"></i> 나의 리뷰
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <!-- 수정 -->
+                    <a th:href="@{/review/update/{bookId}(bookId=${review.isbn})}"
+                       class="text-decoration-none text-primary small">
+                        <i class="bi bi-pencil-square me-1"></i>수정
+                    </a>
+
+
+                    <form th:action="@{/review/delete}" method="post">
+                        <input type="hidden" name="id" th:value="${review.id}" />
+                        <button type="submit" class="btn btn-link text-danger p-0 small text-decoration-none"
+                                onclick="return confirm('정말 삭제하시겠습니까?');">
+                            <i class="bi bi-trash me-1"></i>삭제
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- 평점 -->
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill" style="font-size: 0.9rem;">
+                    평점
+                </span>
+                <div th:replace="fragments/reviewrating :: reviewrating(${review.getRating()})"></div>
+            </div>
+
+            <!-- 리뷰 내용 -->
+            <p class="review-body text-secondary mb-4" style="font-size: 1rem; white-space: pre-line;"
+               th:text="${review.getBody()}"></p>
+
+            <!-- 좋아요 -->
+            <div class="position-absolute bottom-0 end-0 m-3 text-muted d-flex align-items-center small">
+                <i class="bi bi-hand-thumbs-up me-1"></i>
+                <span th:text="${review.getRecommend()}">0</span>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/flipInfomation.js}"></script>
+</div>

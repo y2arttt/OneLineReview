@@ -1,0 +1,20 @@
+<!-- fragments/reviewCardList.html -->
+<div th:fragment="reviewCardList(reviewDetailDTOList)">
+    <div th:if="${#lists.isEmpty(reviewDetailDTOList)}" class="alert alert-info">
+        등록된 리뷰가 없습니다.
+    </div>
+    <div id="scrollerWrap">
+        <div class="review-grid">
+            <div th:each="review : ${reviewDetailDTOList}">
+                <div th:replace="fragments/review/reviewCard :: reviewCard(${review})"></div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1rem;
+        }
+    </style>
+</div>

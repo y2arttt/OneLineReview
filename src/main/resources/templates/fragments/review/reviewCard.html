@@ -1,0 +1,34 @@
+<!-- fragments/reviewCard.html -->
+<div th:fragment="reviewCard(review)">
+    <div class="card h-100 shadow-sm"
+         th:onclick="|window.location.href='/review/detail/' + ${review.getId()}|"
+         style="cursor: pointer;">
+        <div class="card-body d-flex flex-column">
+
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="fw-bold" th:text="${review.getNickname()}"></span>
+                <div th:replace="fragments/reviewrating :: reviewrating(${review.getRating()})"></div>
+            </div>
+
+
+            <div class="d-flex mb-3 flex-grow-1">
+                <img th:src="${review.getImage()}" class="rounded" width="100" height="150" alt="포스터">
+                <div class="ms-3">
+                    <h5 class="mb-2" th:text="${review.getTitle()}"></h5>
+                    <p class="text-muted mb-1" th:text="${review.getCreatedAt()}"></p>
+                    <p class="text-muted review-body mb-0 multiline-ellipsis" th:text="${review.getBody()}">리뷰 내용</p>
+                </div>
+            </div>
+
+
+            <div class="mt-auto d-flex justify-content-between text-muted">
+                <div class="d-flex align-items-center me-3">
+                    <i class="bi-heart text-danger p-1"></i>
+                    <span th:text=" ${review.getRecommend()}">0</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oneLineReview.oneLineReview.mapper.CommentMapper">
+
+
+
+    <insert id="insert" parameterType="com.oneLineReview.oneLineReview.Domain.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO COMMENT (review_id,user_id,content,created_at,recent_at)
+        values (#{review_id}, #{user_id}, #{content}, #{created_at}, #{recent_at})
+    </insert>
+    <update id="update" parameterType="com.oneLineReview.oneLineReview.Domain.Comment">
+        UPDATE COMMENT
+        SET CONTENT = #{content}, RECENT_AT=#{recent_at}
+        WHERE ID = #{id}
+    </update>
+    <delete id="delete" >
+        DELETE  FROM
+                COMMENT
+        WHERE ID = #{id}
+    </delete>
+    <delete id="deleteFromReviewId">
+        DELETE FROM
+                   COMMENT
+        WHERE REVIEW_ID = #{reviewId}
+    </delete>
+
+
+
+    <resultMap id="resultMap" type="com.oneLineReview.oneLineReview.Dto.CommentResponseDTO">
+        <result column="ID" property="id"/>
+        <result column="REVIEW_ID" property="reviewId"/>
+        <result column="CONTENT" property="content"/>
+        <result column="CREATE_AT" property="create_at"/>
+        <result column="RECENT_AT" property="recent_at"/>
+        <result column="NICKNAME" property="nickname"/>
+    </resultMap>
+
+    <select id="list" resultType="com.oneLineReview.oneLineReview.Dto.CommentResponseDTO">
+        SELECT
+            c.ID AS id,
+            c.REVIEW_ID AS reviewId,
+            u.NICKNAME AS nickname,
+            c.CONTENT AS content,
+            c.CREATED_AT AS createdAt,
+            c.RECENT_AT AS recentAt,
+            c.USER_ID AS userId
+        FROM COMMENT c
+                 LEFT JOIN USERS u ON u.ID = c.USER_ID
+        WHERE c.REVIEW_ID = #{reviewId} AND c.IS_DELETED = FALSE
+    </select>
+
+
+    <select id="selectId" parameterType="String" resultType="String">
+        SELECT USER_ID
+        FROM COMMENT
+        WHERE ID = #{id}
+    </select>
+
+    <select id="selectReviewIdFromId" parameterType="long" resultType="long">
+        SELECT REVIEW_ID
+        FROM COMMENT
+        WHERE ID = #{id}
+    </select>
+
+    <select id="selectUserIdFromId" parameterType="long" resultType="long">
+        SELECT USER_ID
+        FROM COMMENT
+        WHERE ID = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../../../../../oneLineReview/src/main/resources/static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>정보 수정</h2>
+    </div>
+    <form th:action="@{/member/{memberId}/edit(memberId=${member.memberId})}" th:object="${member}" method="post">
+        <label>이메일</label>
+        <input type="text" class="form-control" th:value="${member.memberId}" readonly/>
+        <label>닉네임</label>
+        <input type="text" class="form-control" th:value="${member.memberName}" th:field="*{memberName}" />
+        <label>비밀번호</label>
+        <input type="text" class="form-control" th:value="${member.password}" th:field="*{password}"/>
+        <div class="d-grid gap-2 d-flex mt-4">
+            <button type="submit" class="btn btn-primary flex-fill">저장</button>
+            <button type="button" class="btn btn-outline-secondary flex-fill"
+                    th:onclick="|location.href='@{/book}'|">취소</button>
+        </div>
+    </form>
+    <br>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oneLineReview.oneLineReview.mapper.RecommendReviewMapper">
+    <insert id="insert" parameterType="com.oneLineReview.oneLineReview.Dto.RecommendReviewDTO">
+        INSERT INTO RECOMMEND_REVIEW (USER_ID, REVIEW_ID, RECOMMEND)
+        VALUES (#{userId}, #{reviewId}, #{recommend})
+    </insert>
+
+    <delete id="delete" parameterType="com.oneLineReview.oneLineReview.Dto.RecommendReviewDTO">
+        DELETE FROM RECOMMEND_REVIEW
+        WHERE USER_ID = #{userId} AND REVIEW_ID = #{reviewId}
+    </delete>
+
+    <select id="isRecommended" parameterType="com.oneLineReview.oneLineReview.Dto.RecommendReviewDTO">
+        SELECT 1
+        FROM RECOMMEND_REVIEW
+        WHERE USER_ID = #{userId} AND REVIEW_ID = #{reviewId}
+            LIMIT 1
+    </select>
+</mapper>
+

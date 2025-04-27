@@ -1,0 +1,9 @@
+.review-body {
+    min-height: 4.5em; /* 3줄 기준 높이 고정 */
+    max-height: 4.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}

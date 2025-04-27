@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oneLineReview.oneLineReview.mapper.ReviewMapper">
+
+    <!-- 리뷰 등록 -->
+    <insert id="insertReview" parameterType="com.oneLineReview.oneLineReview.Domain.Review">
+        INSERT INTO review (body, book_id, user_id, rating, created_at, recent_at)
+        VALUES (#{body}, #{book_id}, #{user_id}, #{rating}, #{created_at}, #{recent_at})
+    </insert>
+
+    <!-- 특정 리뷰 조회 -->
+    <select id="selectReview"
+            parameterType="String"
+            resultType="com.oneLineReview.oneLineReview.Dto.ReviewDetailDTO">
+        SELECT
+            r.ID AS id,
+            r.BODY AS body,
+            r.RATING AS rating,
+            r.CREATED_AT AS createdAt,
+            r.BOOK_ID AS bookId,
+            r.IMAGE AS image,
+            r.TITLE AS title,
+            r.ISBN AS isbn,
+            r.USER_ID AS userId,
+            COALESCE(COUNT(rr.RECOMMEND), 0) AS recommend,
+            u.nickname
+        FROM REVIEW_WITH_IMAGE r
+                 LEFT JOIN USERS u ON r.USER_ID = u.ID
+                 LEFT JOIN RECOMMEND_REVIEW rr ON r.ID = rr.REVIEW_ID
+        WHERE r.ID = #{id}
+        GROUP BY r.ID, r.BODY, r.RATING, r.CREATED_AT, r.BOOK_ID, r.IMAGE, r.TITLE, r.ISBN, u.nickname
+    </select>
+
+
+    <!-- 리뷰 수정 -->
+    <update id="updateReview"
+            parameterType="com.oneLineReview.oneLineReview.Domain.Review">
+        UPDATE REVIEW
+        <set>
+            <if test="rating != null and rating != ''">
+                rating = #{rating},
+            </if>
+            <if test="body != null and body != ''">
+                body = #{body},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="long">
+        DELETE FROM REVIEW WHERE id = #{reviewId}
+    </delete>
+
+    <!-- 리뷰 결과 매핑 -->
+    <resultMap id="reviewResultMap" type="com.oneLineReview.oneLineReview.Dto.ReviewDetailDTO">
+        <result property="id" column="ID"/>
+        <result property="body" column="BODY"/>
+        <result property="rating" column="RATING"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="bookId" column="BOOK_ID"/>
+        <result property="recommend" column="RECOMMEND"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="title" column="TITLE"/>
+        <result property="isbn" column="ISBN"/>
+        <result property="userId" column="USER_ID"/>
+    </resultMap>
+
+    <!-- 특정 사용자의 리뷰 조회 -->
+    <select id="myReview" resultType="com.oneLineReview.oneLineReview.Dto.ReviewDetailDTO">
+        SELECT
+            r.ID AS id,
+            r.BODY AS body,
+            r.RATING AS rating,
+            r.CREATED_AT AS createdAt,
+            r.BOOK_ID AS bookId,
+            r.IMAGE AS image,
+            r.TITLE AS title,
+            r.ISBN AS isbn,
+            r.USER_ID AS userId,
+            COALESCE(COUNT(rr.RECOMMEND), 0) AS recommend,
+            u.nickname
+        FROM REVIEW_WITH_IMAGE r
+                 LEFT JOIN USERS u ON r.USER_ID = u.ID
+                 LEFT JOIN RECOMMEND_REVIEW rr ON r.ID = rr.REVIEW_ID
+        WHERE r.USER_ID = #{userId} AND r.ISBN = #{isbn}
+        GROUP BY r.ID, r.BODY, r.RATING, r.CREATED_AT, r.ISBN, r.IMAGE, r.TITLE, u.nickname
+
+    </select>
+
+    <!-- 리뷰 리스트 조회 -->
+    <select id="list" resultMap="reviewResultMap"
+            parameterType="com.oneLineReview.oneLineReview.Dto.ReviewListRequestDTO">
+        SELECT
+        r.ID,
+        r.BODY,
+        r.RATING,
+        r.CREATED_AT,
+        r.ISBN,
+        r.IMAGE,
+        r.TITLE,
+        r.USER_ID,
+        COALESCE(COUNT(rr.RECOMMEND), 0) AS RECOMMEND,
+        u.nickname
+        FROM REVIEW_WITH_IMAGE r
+        LEFT JOIN USERS u ON r.USER_ID = u.ID
+        LEFT JOIN RECOMMEND_REVIEW rr ON r.ID = rr.REVIEW_ID
+
+        <where>
+            <if test="reviewListRequest.isbn != null">
+                AND r.ISBN = #{reviewListRequest.isbn}
+            </if>
+            <if test="reviewListRequest.bookId != null">
+                AND r.BOOK_ID = #{reviewListRequest.bookId}
+            </if>
+            <if test="reviewListRequest.recent != null">
+                AND r.CREATED_AT &lt; #{reviewListRequest.recent}
+            </if>
+            <if test="reviewListRequest.recentId != null">
+                AND r.ID &lt; #{reviewListRequest.recentId}
+            </if>
+        </where>
+
+        GROUP BY r.ID, r.BODY, r.RATING, r.CREATED_AT, r.ISBN, r.IMAGE, r.TITLE, u.nickname
+
+        <choose>
+            <when test="reviewListRequest.type == 'recent'">
+                ORDER BY r.CREATED_AT DESC, r.ID DESC
+            </when>
+            <when test="reviewListRequest.type == 'recommend'">
+                ORDER BY RECOMMEND DESC, r.ID DESC
+            </when>
+            <when test="reviewListRequest.type == 'old'">
+                ORDER BY r.CREATED_AT, r.ID DESC
+            </when>
+            <otherwise>
+                ORDER BY r.CREATED_AT DESC
+            </otherwise>
+        </choose>
+
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+
+
+    <!-- 리뷰 user조회 (인가를 위해) -->
+    <select id="checkUserIdFromReviewId" parameterType="Long">
+        SELECT USER_ID AS userId
+        FROM REVIEW
+        WHERE ID = #{reviewId}
+    </select>
+
+    <select id="findBookIdToReviewId" parameterType="Long">
+        SELECT BOOK_ID
+        FROM REVIEW
+        WHERE ID = #{reviewId}
+    </select>
+</mapper>

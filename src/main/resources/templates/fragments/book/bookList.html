@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/default}">
+<th:block layout:fragment="script">
+    <script th:src="@{/js/infinitScrollerBookInfo.js}"></script>
+</th:block>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/reviewCard.css}">
+    <link href="../../../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:each="book : ${result.getItems()}" class="col">
+        <div class="card border-0 p-3 h-100"
+             th:data-isbn="${book.isbn}"
+             onclick="window.location.href='/book/info/' + this.dataset.isbn"
+             style="cursor:pointer;">
+            <div class="d-flex align-items-start" >
+                <img th:src="${book.getImage()}" class="rounded me-3" width="80" height="100" alt="포스터">
+                <div>
+                    <h5 class="mb-1 fs-6 fw-bold" th:text="${book.getTitle()}"></h5>
+                    <p class="mb-1 fs-6 text-muted"><i class="bi bi-person"></i> <span th:text="${book.getAuthor()}"></span></p>
+                    <p class="mb-1 fs-6 text-muted"><i class="bi bi-building"></i> <span th:text="${book.getPublisher()}"></span></p>
+                    <p class="mb-0 fs-6 text-muted"><i class="bi bi-calendar"></i> <span th:text="${book.getPubdate()}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
+

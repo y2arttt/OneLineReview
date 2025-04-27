@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../../../../../oneLineReview/src/main/resources/static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="bg-light py-4">
+<div class="container" style="max-width: 500px">
+    <div class="card shadow p-4 mb-4">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4 text-primary">회원가입</h3>
+            <form th:action="@{/auth/join}" th:object="${joinDTO}" method="post">
+                <div class="mb-3">
+                    <label>이메일</label>
+                    <div class="input-group">
+                        <input type="email" class="form-control" th:field="*{email}" placeholder="이메일">
+<!--                        <button class="btn btn-outline-primary" type="button">중복 검사</button>-->
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>닉네임</label>
+                    <input type="text" class="form-control" th:field="*{nickname}" placeholder="닉네임" id="nickname">
+                    <div class="form-text text-danger d-none" id="nicknameError">
+                        닉네임은 공백일 수 없습니다.
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label>비밀번호</label>
+                    <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="비밀번호">
+                    <div class="form-text text-danger d-none" id="passwordFormatError">
+                        비밀번호는 6~15자의 영문 대소문자, 숫자, 특수문자(@$!%*?&)를 포함해야 합니다.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>비밀번호 확인</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호 확인">
+                    <div class="form-text text-danger d-none" id="passwordError">비밀번호가 일치하지 않습니다.</div>
+                </div>
+                <div class="d-grid gap-2 d-flex mt-4">
+                    <button type="submit" class="btn btn-primary flex-fill" id="submitBtn" >회원 가입</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const nickname = document.getElementById("nickname");
+        const nicknameError = document.getElementById("nicknameError");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const passwordError = document.getElementById("passwordError");
+        const passwordFormatError = document.getElementById("passwordFormatError");
+        const submitBtn = document.getElementById("submitBtn");
+
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
+
+        let isNicknameValid = false;
+        let isPasswordFormatValid = false;
+        let isPasswordMatch = false;
+
+        const toggleError = (element, show) => {
+            element.classList.toggle("d-none", !show);
+        };
+
+        const validateNickname = () => {
+            isNicknameValid = nickname.value.trim() !== "";
+            toggleError(nicknameError, !isNicknameValid);
+            updateSubmitButton();
+        };
+
+        const validatePassword = () => {
+            const passwordValue = password.value;
+            const confirmValue = confirmPassword.value;
+
+            isPasswordFormatValid = passwordRegex.test(passwordValue);
+            toggleError(passwordFormatError, !isPasswordFormatValid);
+
+            isPasswordMatch = passwordValue === confirmValue;
+            toggleError(passwordError, !isPasswordMatch && (passwordValue || confirmValue));
+
+            updateSubmitButton();
+        };
+
+        const updateSubmitButton = () => {
+            submitBtn.disabled = !(isNicknameValid && isPasswordFormatValid && isPasswordMatch);
+        };
+
+        nickname.addEventListener("input", validateNickname);
+        password.addEventListener("input", validatePassword);
+        confirmPassword.addEventListener("input", validatePassword);
+
+        validateNickname();
+        validatePassword();
+    });
+</script>
+<script th:inline="javascript" th:if="${errorMessage != null}">
+    document.addEventListener("DOMContentLoaded", () => {
+        alert([[${errorMessage}]]);
+    });
+</script>
+<script th:src="@{/js/goBackHome.js}"></script>
+</html>

@@ -1,0 +1,35 @@
+<div th:fragment="reviewCard(review)">
+    <div class="card shadow-sm mb-3"
+         th:onclick="|window.location.href='/review/detail/' + ${review.getId()}|"
+         style="cursor: pointer;">
+        <div class="card-body">
+
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center">
+                    <span class="ms-2 fw-bold" th:text="${review.getNickname()}"></span>
+                </div>
+                <div th:replace="fragments/reviewrating :: reviewrating(${review.getRating()})"></div>
+            </div>
+
+
+            <div class="d-flex mb-3">
+                <div class="ms-3">
+                    <p class="text-muted" th:text="${review.getCreatedAt()}"></p>
+                    <p class="review-body text-muted" th:text="${review.getBody()}"></p>
+                </div>
+            </div>
+
+
+            <div class="d-flex text-muted">
+                <div class="d-flex align-items-center me-3">
+                    <i class="bi bi-hand-thumbs-up me-1"></i>
+                    <span th:text="${review.getRecommend()}">0</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

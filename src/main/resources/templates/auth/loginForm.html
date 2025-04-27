@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../../../../../oneLineReview/src/main/resources/static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="bg-light py-4">
+<div class="container" style="max-width: 500px">
+    <div class="card shadow p-4 mb-4">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4 text-primary">로그인</h3>
+            <form th:action="@{/auth/login}" th:object="${loginDTO}" method="post">
+                <div class="mb-3">
+                    <label>이메일</label>
+                    <div class="input-group">
+                        <input type="email" class="form-control" th:field="*{email}" placeholder="이메일">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>비밀번호</label>
+                    <input type="password" class="form-control" th:field="*{password}" placeholder="비밀번호">
+                </div>
+
+                <div class="d-grid gap-2 d-flex mt-4">
+                    <button type="submit" class="btn btn-primary flex-fill" id="submitBtn">로그인</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript" th:if="${errorMessage != null}">
+    document.addEventListener("DOMContentLoaded", () => {
+        alert([[${errorMessage}]]);
+    });
+</script>
+<script th:src="@{/js/goBackHome.js}"></script>
+</html>

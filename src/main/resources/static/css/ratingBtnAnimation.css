@@ -1,0 +1,22 @@
+.rating-btn {
+    border: 1px solid #ccc;
+    background-color: transparent;
+    color: #555;
+    margin: 4px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.rating-btn:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.rating-btn.selected {
+    border: none;
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
