@@ -1,10 +1,6 @@
 package com.oneLineReview.oneLineReview.common.exception;
 
 import com.oneLineReview.oneLineReview.Dto.JoinDTO;
-import com.oneLineReview.oneLineReview.common.exception.customException.BasicException;
-import com.oneLineReview.oneLineReview.common.exception.customException.JoinException;
-import com.oneLineReview.oneLineReview.common.exception.customException.LoginAuthException;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -23,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @ControllerAdvice
-public class GlobalExceptionController {
+public class GlobalExceptionHandler {
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

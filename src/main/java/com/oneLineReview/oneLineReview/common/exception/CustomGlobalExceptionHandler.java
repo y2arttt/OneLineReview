@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @ControllerAdvice
-public class CustomGlobalExceptionController {
+public class CustomGlobalExceptionHandler {
 
 
 

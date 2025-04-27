@@ -15,8 +15,8 @@ import java.util.UUID;
 @Configuration
 public class ExceptionLoggingAop {
 
-    @Around("execution(* com.oneLineReview.oneLineReview.common.exception.GlobalExceptionController.*(..)) || " +
-            "execution(* com.oneLineReview.oneLineReview.common.exception.CustomGlobalExceptionController.*(..))")
+    @Around("execution(* com.oneLineReview.oneLineReview.common.exception.GlobalExceptionHandler.*(..)) || " +
+            "execution(* com.oneLineReview.oneLineReview.common.exception.CustomGlobalExceptionHandler.*(..))")
     public Object logException(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         Exception exception = null;
