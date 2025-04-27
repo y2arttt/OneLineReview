@@ -14,7 +14,7 @@ CREATE TABLE users (
 -- 2. books
 CREATE TABLE books (
                        id INT AUTO_INCREMENT PRIMARY KEY,
-                       isbn VARCHAR(255) COMMENT '독립 출판물의 경우 isbn이 없는 경우도 있음 <- 추후 확장 고려',
+                       isbn VARCHAR(255) COMMENT
                        title VARCHAR(255),
                        image VARCHAR(500),
                        author VARCHAR(255),
@@ -56,6 +56,7 @@ CREATE TABLE comment (
                          content VARCHAR(1000) NOT NULL,
                          created_at TIMESTAMP NOT NULL,
                          recent_at TIMESTAMP NOT NULL,
+                         is_delete INT NOT NULL,
                          FOREIGN KEY (review_id) REFERENCES review(id),
                          FOREIGN KEY (user_id) REFERENCES users(id)
 );
