@@ -50,8 +50,8 @@
 
 - ### 로그인 및 회원가입
 <p>
-  <img width="450" height="450" alt="스크린샷 2025-04-28 00 34 00" src="https://github.com/user-attachments/assets/332a051c-0c30-492a-b649-c905476a87da" />
-<img width="450"  height="450" alt="스크린샷 2025-04-28 00 34 17" src="https://github.com/user-attachments/assets/c7d72e47-8d79-4099-a111-77a1f7e89a20" />  
+  <img width="410" height="410" alt="스크린샷 2025-04-28 00 34 00" src="https://github.com/user-attachments/assets/332a051c-0c30-492a-b649-c905476a87da" />
+<img width="410"  height="410" alt="스크린샷 2025-04-28 00 34 17" src="https://github.com/user-attachments/assets/c7d72e47-8d79-4099-a111-77a1f7e89a20" />  
 </p>
 
 
